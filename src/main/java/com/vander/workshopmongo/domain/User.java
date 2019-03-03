@@ -1,6 +1,10 @@
 package com.vander.workshopmongo.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -10,6 +14,9 @@ public class User {
 	private String id;
 	private String name;
 	private String email;
+	
+	@DBRef(lazy = true)
+	private List<Post> posts = new ArrayList<>();
 	
 	public User() {
 		
@@ -46,6 +53,14 @@ public class User {
 		this.email = email;
 	}
 
+	public List<Post> getPostUser() {
+		return posts;
+	}
+
+	public void setPostUser(List<Post> postUser) {
+		this.posts = postUser;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -70,7 +85,5 @@ public class User {
 			return false;
 		return true;
 	}
-	
-	
 	
 }
