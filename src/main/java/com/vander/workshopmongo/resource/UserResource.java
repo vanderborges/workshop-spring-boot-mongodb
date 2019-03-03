@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +53,15 @@ public class UserResource {
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable String id) {
 		service.deleteUser(id);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable String id) {
+		User obj = service.fromDto(userDto);
+		obj.setId(id);
+		service.update(obj);
+		
 		return ResponseEntity.noContent().build();
 	}
 	
