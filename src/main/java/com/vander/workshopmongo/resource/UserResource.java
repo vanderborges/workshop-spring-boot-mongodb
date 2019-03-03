@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.vander.workshopmongo.domain.Post;
 import com.vander.workshopmongo.domain.User;
 import com.vander.workshopmongo.dto.UserDto;
 import com.vander.workshopmongo.services.UserService;
@@ -38,6 +37,13 @@ public class UserResource {
 	public ResponseEntity<UserDto> findById(@PathVariable String id) {
 		User user = service.findById(id);
 		return new ResponseEntity<UserDto>(new UserDto(user), HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/{id}/posts")
+	public ResponseEntity<List<Post>> posts(@PathVariable String id) {
+		User user = service.findById(id);
+		
+		return ResponseEntity.ok().body(user.getPostUser());
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
