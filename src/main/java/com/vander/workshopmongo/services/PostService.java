@@ -1,5 +1,6 @@
 package com.vander.workshopmongo.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,5 +32,9 @@ public class PostService {
 
 	public List<Post> searchTitle(String text) {
 		return rep.searchTitle(text);
+	}
+	
+	public List<Post> searchFull (String text, Date minDate, Date maxDate) {
+		return rep.searchFull(text, minDate, maxDate);
 	}
 }
