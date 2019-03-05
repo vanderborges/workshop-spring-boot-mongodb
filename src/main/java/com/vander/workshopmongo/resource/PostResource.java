@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vander.workshopmongo.domain.Post;
+import com.vander.workshopmongo.resource.util.Url;
 import com.vander.workshopmongo.services.PostService;
 
 @RestController
@@ -27,12 +28,17 @@ public class PostResource {
 		return ResponseEntity.ok().body(post);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/searchtitle" )
+	@RequestMapping(method = RequestMethod.GET, value = "/findtitle" )
 	public ResponseEntity<List<Post>> findTitle (@RequestParam(value = "text", defaultValue = "") String text) {
-		List<Post> posts = service.findByTitle(text);
+		List<Post> posts = service.findByTitle(Url.urlDeconding(text));
 		return ResponseEntity.ok().body(posts);
-		
-		
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/searchTitle")
+	public ResponseEntity<List<Post>> searchTitle (@RequestParam(value = "text", defaultValue = "")String text) {
+		text = Url.urlDeconding(text);
+		List<Post> posts = service.searchTitle(text);
+		return ResponseEntity.ok().body(posts);
 	}
 	
 }
